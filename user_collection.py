@@ -1,7 +1,7 @@
 import os.path
 import datetime
 
-from user import User
+from user import User, WrongEmailError
 from load_data import LoadData
 from task_collection import TaskCollection
 
@@ -29,13 +29,16 @@ class UserCollection:
         users_list = LoadData.load("https://json.medrating.org/users")
         for cur in users_list:
             try:
-                self.users.add(User(
+                cur_user = User(
                     cur["id"], cur["name"],
                     cur["username"], cur["email"],
                     cur["company"]["name"], TaskCollection(cur["id"])
-                ))
+                )
+                self.users.add(cur_user)
             except KeyError:
-                print(f"The keys do not exist in user number {users_list.index(cur)}")
+                print(f"The keys do not exist in user number {users_list.index(cur)+1}")
+            except WrongEmailError:
+                print(f"There are wrong email value in user number {users_list.index(cur)+1}")
 
     def write_users(self):
         dir_name = os.path.dirname(__file__) + '/tasks'

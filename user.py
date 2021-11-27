@@ -1,6 +1,12 @@
 import datetime
 
+from validate_email import validate_email
+
 from task_collection import TaskCollection
+
+
+class WrongEmailError(Exception):
+    pass
 
 
 class User:
@@ -43,7 +49,10 @@ class User:
 
     @email.setter
     def email(self, email_):
-        self.email = email_
+        if validate_email(email_):
+            self.email = email_
+        else:
+            raise WrongEmailError
 
     @property
     def company(self):
