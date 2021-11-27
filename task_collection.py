@@ -63,10 +63,9 @@ class TaskCollection:
             try:
                 if cur["userId"] == self.user_id:
                     task = Task(cur["userId"], cur["title"], cur["completed"])
+                    if task.completed:
+                        self.completed_tasks.add(task)
+                    else:
+                        self.remaining_tasks.add(task)
             except KeyError:
-                print(f"The keys do not exist in item number {task_list.index(cur)}")
-            else:
-                if task.completed:
-                    self.completed_tasks.add(task)
-                else:
-                    self.remaining_tasks.add(task)
+                print(f"The keys do not exist in task number {task_list.index(cur)}")

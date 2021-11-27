@@ -28,18 +28,22 @@ class UserCollection:
     def read_users(self):
         users_list = LoadData.load("https://json.medrating.org/users")
         for cur in users_list:
-            self.users.add(User(
-                cur["id"], cur["name"],
-                cur["username"], cur["email"],
-                cur["company"]["name"], TaskCollection(cur["id"])
-            ))
+            try:
+                self.users.add(User(
+                    cur["id"], cur["name"],
+                    cur["username"], cur["email"],
+                    cur["company"]["name"], TaskCollection(cur["id"])
+                ))
+            except KeyError:
+                print(f"The keys do not exist in user number {users_list.index(cur)}")
 
     def write_users(self):
         dir_name = os.path.dirname(__file__) + '/tasks'
         try:
             os.mkdir(dir_name)
+            print("The '/tasks' directory has been created.")
         except OSError:
-            pass
+            print("The '/tasks' directory already exist.")
 
         for cur in self.users:
             cur_path = f"{cur.username}.txt"
