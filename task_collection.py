@@ -6,7 +6,7 @@ class TaskCollection:
 
     def __init__(self, id_):
         self.user_id(id_)
-        self.complete_tasks = []
+        self.completed_tasks = []
         self.remaining_tasks = []
         self.read_tasks()
         self.count(len(self.completed_tasks) + len(self.remaining_tasks))
@@ -21,7 +21,7 @@ class TaskCollection:
 
     @property
     def completed_tasks(self):
-        return self.complete_tasks
+        return self.completed_tasks
 
     @completed_tasks.setter
     def completed_tasks(self, tasks):
@@ -60,8 +60,13 @@ class TaskCollection:
     def read_tasks(self):
         task_list = LoadData.load("https://json.medrating.org/todos")
         for cur in task_list:
-            task = Task(cur["userId"], cur["title"], cur["completed"])
-            if task.completed:
-                self.complete_tasks.add(task)
+            try:
+                if cur["userId"] == self.user_id:
+                    task = Task(cur["userId"], cur["title"], cur["completed"])
+            except KeyError:
+                print(f"The keys do not exist in item number {task_list.index(cur)}")
             else:
-                self.remaining_tasks.add(task)
+                if task.completed:
+                    self.completed_tasks.add(task)
+                else:
+                    self.remaining_tasks.add(task)

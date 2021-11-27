@@ -5,13 +5,13 @@ from task_collection import TaskCollection
 
 class User:
 
-    def __init__(self, id_, fullname, username, email, company, tasks_):
+    def __init__(self, id_, fullname, username, email, company, tasks):
         self.user_id(id_)
         self.fullname(fullname)
         self.username(username)
         self.email(email)
         self.company(company)
-        self.tasks(tasks_)
+        self.tasks(tasks)
 
     @property
     def user_id(self):

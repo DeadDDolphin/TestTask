@@ -31,7 +31,7 @@ class UserCollection:
             self.users.add(User(
                 cur["id"], cur["name"],
                 cur["username"], cur["email"],
-                cur["company"], TaskCollection(cur["id"])
+                cur["company"]["name"], TaskCollection(cur["id"])
             ))
 
     def write_users(self):
@@ -54,6 +54,6 @@ class UserCollection:
 
                 os.rename(cur_path,
                           f"old_{cur.username}_{old_date}.txt")
-            else:
-                with open(cur_path, 'w') as cur_file:
-                    cur_file.write(cur.create_report)
+
+            with open(cur_path, 'w') as cur_file:
+                cur_file.write(cur.create_report)
