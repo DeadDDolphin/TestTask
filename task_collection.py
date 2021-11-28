@@ -3,6 +3,23 @@ from load_data import LoadData
 
 
 class KeyErrorException(Exception):
+    """
+    Class for equal KeyError by index
+
+    Attributes
+    ----------
+    index: int
+
+    Methods
+    -------
+    __init__(index)
+    __hash__():
+        overwrite for hash. The hash is calculated
+        depending on the index
+    __eq__():
+        overwrite for eq.
+
+    """
 
     def __init__(self, index):
         self.index = index
@@ -17,6 +34,36 @@ class KeyErrorException(Exception):
 
 
 class TaskCollection:
+    """
+    Class for describe collection of tasks.
+
+    Class attributes
+    ----------------
+    exceptions: set
+        Set for KeyError exceptions
+
+    Attributes
+    ----------
+    user_id: int
+    completed_tasks: list
+    remaining_tasks: list
+    count: int
+
+    Methods
+    -------
+    __init__():
+        Creates empty lists.
+        Calls the read_tasks() method to fill the lists.
+        Calculates the count of tasks.
+    completed_all():
+        :rtype: str
+        :return: string contains all titles of completed tasks
+    remaining_all():
+        :rtype: str
+        :return: string contains all titles of remaining tasks
+    read_tasks():
+        Reads the tasks from url
+    """
     exceptions = set()
 
     def __init__(self, id_):
@@ -60,19 +107,38 @@ class TaskCollection:
     def count(self, count_):
         self._count = count_
 
-    def completed_all(self):
+    def completed_all(self) -> str:
+        """
+        Joins all completed titles into a single string
+        :rtype: str
+        :return: all completed titles
+        """
+
         s = []
         for cur in self.completed_tasks:
             s.append(cur.title)
         return '\n'.join(s)
 
-    def remaining_all(self):
+    def remaining_all(self) -> str:
+        """
+        Joins all remaining titles into a single string
+        :rtype: str
+        :return: all remaining titles
+        """
+
         s = []
         for cur in self.remaining_tasks:
             s.append(cur.title)
         return '\n'.join(s)
 
     def read_tasks(self):
+        """
+        Load data from url.
+        Read all tasks with userId equal to the user ID of concrete instance.
+        Append KeyErrorException into exceptions
+        if the task don't have the required keys
+        :return: None
+        """
         task_list = LoadData.load("https://json.medrating.org/todos")
         for cur in task_list:
             try:

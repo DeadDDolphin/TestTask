@@ -15,7 +15,7 @@ class User:
 
     Attributes
     ----------
-    user_id: id
+    user_id: int
     fullname: str
     username: str
     email: str

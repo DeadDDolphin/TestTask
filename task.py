@@ -1,9 +1,24 @@
 class Task:
+    """
+    Class Task for describe task properties
 
-    def __init__(self, user_id_, title_, completed_):
-        self.user_id = user_id_
-        self.title = title_
-        self.completed = completed_
+    Attributes
+    ----------
+    user_id: int
+    title: str
+    completed: bool
+
+    Methods
+    -------
+    __init__(user_id, title, completed)
+    __str__():
+        :return title of the task
+    """
+
+    def __init__(self, user_id, title, completed):
+        self.user_id = user_id
+        self.title = title
+        self.completed = completed
 
     @property
     def user_id(self):
