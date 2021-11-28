@@ -1,9 +1,6 @@
-
-
-
-def create_report():
-    pass
-
+from user_collection import UserCollection
 
 if __name__ == '__main__':
-    load_data("https://json.medrating.org/todos")
+    obj = UserCollection()
+    obj.read_users()
+    obj.write_users()
